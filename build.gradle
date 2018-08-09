@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        //gradleVersion
+        gradle_version='3.1.4'
+        // kotlinVersions
+        kotlin_version = '1.2.60'
+        //retrolambdaVersion
+        //ext.retrolambda=''
+        //protobuf-gradle-plugin
+        protobuf_version='0.8.6'
+        ////sdkVersions
+        supportLibVersion = '28.+'
+    }
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        //        if the Android Studio version is not 3.0, we need to add the following code into the build.gradle
+// (Project: MyApplication) file
+// (located at the bottom of the left side of the Project window, inside Gradle Scripts), under the dependencies section.
+//                classpath “org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version”
+//        classpath “org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version”
+//        Also add the Kotlin version into the buildscript section, as follows:
+//        ext.kotlin_version = ‘1.1.x’
+//        Now, add the following line to the build.gradle (Module: app) file, as the second line,
+// followed by the com.android.application plugin:
+//        apply plugin: ‘kotlin-android’
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        //protobuf-gradle-plugin https://github.com/google/protobuf-gradle-plugin/releases
+        classpath "com.google.protobuf:protobuf-gradle-plugin:$protobuf_version"
+        //Remove the below dependency line :
+        // classpath "me.tatarka:gradle-retrolambda:"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

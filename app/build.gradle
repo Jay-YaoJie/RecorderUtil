@@ -1,0 +1,187 @@
+apply plugin: 'com.android.application'
+
+/* Kotlin加入plugin声明
+   add the following line to the build.gradle (Module: app) file, as the second line,
+   followed by the com.android.application plugin:  */
+apply plugin: 'kotlin-android'
+//kotlin的apt 类似于java的apt
+//apply plugin: 'kotlin-kapt' 不能使用
+//扩展插件，使用可以直接引用布局里view的id进行操作
+apply plugin: 'kotlin-android-extensions'
+//gRPC ❤ Kotlin  //声明protobuf插件
+apply plugin: 'com.google.protobuf'
+/* remove the below line*/
+//apply plugin: 'me.tatarka.retrolambda'
+
+////移除是完全安全的kapt { generateStubs = true }。它最初kapt1被使用，现在已被弃用。
+//kapt {
+//    //3rd-party Gradle plug-ins may be the cause
+//    //使用kotlin语言配置
+//    generateStubs = true
+//    mapDiagnosticLocations = true
+//}
+android {
+    // 编译SDK的版本
+    compileSdkVersion 28
+    // build tools的版本
+    //    buildToolsVersion "28.0.2"
+    //默认配置
+    defaultConfig {
+        //应用的包名
+        applicationId "com.bmt.recorders"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //  //分包
+        multiDexEnabled true
+        //Error:Removing unused resources requires unused code shrinking to be turned on. See http://d.android.com/r/tools/shrink-resources.html for more information.
+        // 添加如下配置就OK了
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        //运行提示可能被抛弃
+//        jackOptions {
+//            enabled true
+//        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //aapt配置
+    aaptOptions {
+        //防止检查9图时出现异常
+        cruncherEnabled = false
+        useNewCruncher = false
+        //不用压缩的文件
+        //   noCompress 'pak', 'dat', 'bin', 'notice'
+        //打包时候要忽略的文件
+        ignoreAssetsPattern "!.svn:!.git"
+        //--extra-packages是为资源文件设置别名：意思是通过该应用包名+R，com.android.test1.R和com.android.test2.R都可以访问到资源
+        // additionalParameters '--extra-packages', 'com.android.test1','--extra-packages','com.android.test2'
+    }
+    //源文件目录设置
+    //在android下添加这个一个sourceSets.main
+    sourceSets {
+        main {
+            //定义多个资源文件夹,这种情况下，两个资源文件夹具有相同优先级，即如果一个资源在两个文件夹都声明了，合并会报错。
+            // res.srcDirs = ['src/main/res', 'src/main/res2']
+            res.srcDirs = ['src/main/res']
+
+            //  assets.srcDirs = ['src/main/assets']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            jni.srcDirs = []
+            //jni lib的位置
+            //  jniLibs.srcDirs = jniLibs.srcDirs << 'src/jniLibs'
+            //   jniLibs.srcDirs = ['src/main/libs']
+            //assets.srcDirs = ['assets']
+            //指定多个源文件目录
+            //  java.srcDirs = ['src/main/java', 'src/main/aidl']
+            java.srcDirs = ['src/main/java']
+        }
+    }
+    //
+//    //签名配置
+//    signingConfigs {
+//        release {
+//            keyAlias 'bmt'
+//            keyPassword 'bmttop2018'
+//            storeFile file('../app/BMT.keystore')
+//            storePassword 'bmttop2018'
+//        }
+//    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    buildTypes {
+
+        //release版本配置
+        release {
+            // 是否进行混淆
+            minifyEnabled false//true开启混淆配置，false关闭
+            zipAlignEnabled true
+            buildConfigField "boolean", "ISDEBUG", "false"
+            debuggable false
+            //去除没有用到的资源文件，要求minifyEnabled为true才生效
+            //shrinkResources true
+            // 混淆文件的位置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //ndk的一些相关配置，也可以放到defaultConfig里面。
+            //指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,arm-v8之类的so会被过滤掉)
+//            ndk {
+//                abiFilter "armeabi"
+//            }
+          //  signingConfig signingConfigs.release
+        }
+        //debug版本配置
+        debug {
+          //  signingConfig signingConfigs.release
+            debuggable true
+            // 是否进行混淆
+            minifyEnabled false
+            buildConfigField "boolean", "ISDEBUG", "true"
+            //去除没有用到的资源文件，要求minifyEnabled为true才生效
+            //shrinkResources true
+            // 混淆文件的位置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //ndk的一些相关配置，也可以放到defaultConfig里面。
+            //指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,arm-v8之类的so会被过滤掉)
+//            ndk {
+//                abiFilter "armeabi"
+//            }
+        }
+    }
+    lintOptions {
+        // Do not complain about outdated deps, so that this can javax.annotation-api can be same
+        // as other projects in this repo. Your project is not required to do this, and can
+        // upgrade the dep.
+        disable 'GradleDependency'
+        // The Android linter does not correctly detect resources used in Kotlin.
+        // See:
+        //   - https://youtrack.jetbrains.com/issue/KT-7729
+        //   - https://youtrack.jetbrains.com/issue/KT-12499
+        disable 'UnusedResources'
+        textReport true
+        textOutput "stdout"
+    }
+    //Kotlin Android Extensions是另一个Kotlin团队研发的插件，让我们用更少的代码来开发程序 。
+    androidExtensions {
+        experimental = true
+    }
+    //具体是4g还是多少可以看电脑配置修改（2g、3g、6g、8g）
+//    dexOptions {
+//        javaMaxHeapSize "4g"
+//    }
+
+}
+//https://github.com/rouzwawi/grpc-kotlin
+//protobuf {
+//    protoc { artifact = 'com.google.protobuf:protoc:3.5.1-1' }
+//    plugins {
+//        javalite { artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0" }
+//        //增加grpc插件
+//        grpc {
+//            artifact = 'io.grpc:protoc-gen-grpc-java:1.13.1' // CURRENT_GRPC_VERSION
+//        }
+//    }
+//    generateProtoTasks {
+//        all().each { task ->
+//            task.plugins {
+//                javalite {}
+//                grpc { // Options added to --grpc_out
+//                    option 'lite'
+//                }
+//            }
+//        }
+//    }
+//}
+//引用其他包或框架
+apply from: "dependencies.gradle"
