@@ -4,7 +4,7 @@
 
 ![https://github.com/Jay-YaoJie/RecorderUtil/blob/master/test.png](https://github.com/Jay-YaoJie/RecorderUtil/blob/master/test.png)
 
-下载测试apk ![https://github.com/Jay-YaoJie/RecorderUtil/blob/master/app-debug.apk.1](测试demo)
+下载测试apk ![https://github.com/Jay-YaoJie/RecorderUtil/blob/master/app-debug.apk.1](https://github.com/Jay-YaoJie/RecorderUtil/blob/master/app-debug.apk.1)
 ```
     private var cameraSurfaceView: CameraSurfaceView? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
