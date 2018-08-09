@@ -2,6 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jay.recorders">
 
+    <!--相机权限 - 您的应用程序必须请求使用设备相机的权限。-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!--注意：如果您通过调用现有的摄像头应用程序来使用摄像头，则应用程序不需要请求此权限。-->
+    <!--相机功能 - 您的应用程序还必须声明使用相机功能，例如：-->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <!--存储权限 - 如果应用程序将图像或视频保存到设备的外部存储设备（SD卡），则还必须在清单中指定此选项。-->
+    <!--往sdcard中写入数据的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--在sdcard中创建/删除文件的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--这种方法，在安装apk时，系统会提示安装人是否允许使用禁止休眠功能-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!--音频录制权限 - 对于使用视频捕获录制音频，应用程序必须请求获取音频捕获权限。-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".Recorders"
         android:allowBackup="true"
