@@ -3,6 +3,8 @@
 拍照jpg, 录像mp4, 录音 amr  ,使用Android Studio3.1.3纯kotlin 1.2.60编写
 
 ![https://github.com/Jay-YaoJie/RecorderUtil/blob/master/test.png](https://github.com/Jay-YaoJie/RecorderUtil/blob/master/test.png)
+
+下载测试apk ![https://github.com/Jay-YaoJie/RecorderUtil/blob/master/app-debug.apk.1](测试demo)
 ```
     private var cameraSurfaceView: CameraSurfaceView? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,3 +64,5 @@
         cameraSurfaceView!!.closeCamera()
     }
 ```
+
+
