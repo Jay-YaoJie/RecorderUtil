@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:voiceView="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    android:layout_height="match_parent">
+
+
+    <com.bmt.realwear.camerasurfaceview.CameraSurfaceView
+        android:id="@+id/cameraSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/voiceline"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_shape_normal"
+        android:gravity="center"
+        android:text="正在录音。。。"
+        android:textColor="@color/white"
+        android:visibility="gone" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="40dp"
+        android:orientation="horizontal">
+
+
+        <ToggleButton
+            android:id="@+id/light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_normal"
+            android:textColor="@color/white"
+            android:textOff="打开灯光"
+            android:textOn="关闭灯光"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/capture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_normal"
+            android:text="拍照"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <ToggleButton
+            android:id="@+id/luxiang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_normal"
+            android:textColor="@color/white"
+            android:textOff="开始录像"
+            android:textOn="结束录像"
+            android:textSize="14sp" />
+
+        <ToggleButton
+            android:id="@+id/luyin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_normal"
+            android:textColor="@color/white"
+            android:textOff="开始录音"
+            android:textOn="结束录音"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

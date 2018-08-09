@@ -31,7 +31,7 @@ object FinalValue {
 
     //app名字
     const val APP_NAME: String = "bmt";//铁路
-    const val APP_PPACKAGE="com.bmt.realwear"//包名
+    const val APP_PPACKAGE="com.jay.recorders"//包名
 
 
 
