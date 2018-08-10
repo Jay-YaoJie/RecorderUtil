@@ -69,9 +69,13 @@ class RecorderUtil {
     fun stopRecording() {
         timeInterval = System.currentTimeMillis() - startTime
         try {
-            if (timeInterval > 1000) {
-                mRecorder!!.stop()
-            }
+
+
+
+            mRecorder!!.stop()
+             mRecorder!!.setPreviewDisplay(null)
+            //音频录制-警告-W/MediaRecorder(13811): mediarecorder went away with unhandled events
+            mRecorder!!.reset();
             mRecorder!!.release()
             mRecorder = null
             isRecording = false
