@@ -1,8 +1,7 @@
-package com.bmt.realwear.camerasurfaceview
+package com.jay.recorders.camerasurfaceview
 
 import android.graphics.Bitmap
 import android.hardware.Camera
-import android.os.Environment
 import com.jay.recorders.objectUtils.FileUtil
 import com.jay.recorders.objectUtils.LogUtil
 import java.io.BufferedOutputStream

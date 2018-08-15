@@ -4,10 +4,12 @@ import android.media.MediaRecorder
 import android.util.Log
 import com.jay.recorders.objectUtils.FileUtil
 import com.jay.recorders.objectUtils.LogUtil
-
 import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
+import com.jay.recorders.objectUtils.ToastUtil
+
+
 
 /**
  * @author: Jeff <15899859876@qq.com>
@@ -25,8 +27,6 @@ class RecorderUtil {
 
     private val TAG = "RecorderUtil"
     private var mRecorder: MediaRecorder? = null
-    private var startTime: Long = 0
-    private var timeInterval: Long = 0
     private var isRecording: Boolean = false
     companion object {
         var voicePath:String?=null
@@ -40,24 +40,41 @@ class RecorderUtil {
             mRecorder!!.release()
             mRecorder = null
         }
+
         voicePath= FileUtil.getFilePath("amr")!!.toString()
         mRecorder = MediaRecorder()
-        mRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)// 设置麦克风
+       // mRecorder!!.reset()
+        // 设置音频录入源//// 设置麦克风
+        mRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
         /* ②设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
-        mRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
-        mRecorder!!.setOutputFile(voicePath)
+        // 设置录制音频的输出格式
+        mRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+        // 设置音频的编码格式
         /*
-         * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
-         * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
-         */
+       * ②设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
+       * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
+       */
         mRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-        startTime = System.currentTimeMillis()
+        // 设置录制音频文件输出文件路径
+        mRecorder!!.setOutputFile(voicePath)
+        mRecorder!!.setOnErrorListener(object : MediaRecorder.OnErrorListener {
+            override fun onError(mr: MediaRecorder, what: Int, extra: Int) {
+                // 发生错误，停止录制
+                mRecorder!!.stop()
+                mRecorder!!.release()
+                mRecorder = null
+                isRecording = false
+                ToastUtil.show("录音发生错误")
+            }
+        })
 
         try {
+            // 准备、开始
             mRecorder!!.prepare()
             mRecorder!!.start()
             isRecording = true
         } catch (e: Exception) {
+            e.printStackTrace()
             LogUtil.e(TAG, "prepare() failed")
         }
 
@@ -67,20 +84,17 @@ class RecorderUtil {
      * 停止录音
      */
     fun stopRecording() {
-        timeInterval = System.currentTimeMillis() - startTime
         try {
-
-
-
-            mRecorder!!.stop()
-             mRecorder!!.setPreviewDisplay(null)
+            mRecorder!!.stop();
+           // mRecorder!!.setPreviewDisplay(null)
+            //mRecorder!!.reset();//重置
             //音频录制-警告-W/MediaRecorder(13811): mediarecorder went away with unhandled events
-            mRecorder!!.reset();
-            mRecorder!!.release()
+            mRecorder!!.release();//释放
             mRecorder = null
             isRecording = false
             //结束录像之后可以在这里上传文件
         } catch (e: Exception) {
+            e.printStackTrace()
             LogUtil.e(TAG, "release() failed")
         }
 
@@ -113,6 +127,7 @@ class RecorderUtil {
         try {
             return readFile(File(voicePath))
         } catch (e: IOException) {
+            e.printStackTrace()
             Log.e(TAG, "read file error$e")
             return null
         }
@@ -124,13 +139,6 @@ class RecorderUtil {
      */
     fun getFilePath(): String {
         return voicePath!!
-    }
-
-    /**
-     * 获取录音时长,单位秒
-     */
-    fun getTimeInterval(): Long {
-        return timeInterval / 1000
     }
 
     /**

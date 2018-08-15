@@ -30,7 +30,7 @@ import com.jay.recorders.objectUtils.FinalValue.APP_NAME
 object FinalValue {
 
     //app名字
-    const val APP_NAME: String = "bmt";//铁路
+    const val APP_NAME: String = "recorders";//铁路
     const val APP_PPACKAGE="com.jay.recorders"//包名
 
 

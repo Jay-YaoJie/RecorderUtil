@@ -4,9 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ToggleButton
-import com.bmt.realwear.camerasurfaceview.CameraSurfaceView
 import com.jay.recorders.R
 import com.jay.recorders.audioUtil.RecorderUtil
+import com.jay.recorders.objectUtils.camerasurfaceview.CameraSurfaceView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 
@@ -52,11 +52,14 @@ class MainActivity : AppCompatActivity() {
                                                                                           isChecked ->
             if (isChecked) {
                 voiceline.visibility = View.VISIBLE
+                cameraSurfaceView!!.capture()
+                cameraSurfaceView!!.stopPreview()
                 recorder = RecorderUtil()
                 recorder!!.startRecording() //开始录音
             } else {
                 voiceline.visibility = View.GONE
                 recorder!!.stopRecording()//结束录音
+                cameraSurfaceView!!.startPreview()
 
             }
         }
