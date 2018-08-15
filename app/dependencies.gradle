@@ -94,4 +94,7 @@ dependencies {
 //    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha03"
 //    testImplementation "org.robolectric:robolectric:3.7"
 
+
+    //Google 发布了 Android KTX 预览版，Android KTX 是一组扩展程序，它能使 Android 上的 Kotlin 代码更简洁，从而提高开发者的编程体验。
+    //https://github.com/android/android-ktx
 }
