@@ -490,7 +490,7 @@ class CameraSurfaceView : SurfaceView, SurfaceHolder.Callback, Camera.AutoFocusC
         try {
             mCamera!!.lock()
             mediaRecorder!!.stop();
-            //mediaRecorder!!.setPreviewDisplay(null)
+            mediaRecorder!!.setPreviewDisplay(null)
            // mediaRecorder!!.reset();//重置
             mediaRecorder!!.release();//释放
             mediaRecorder = null;

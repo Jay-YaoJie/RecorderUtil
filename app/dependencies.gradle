@@ -85,7 +85,6 @@ dependencies {
     implementation "cn.bingoogolapple:bga-qrcode-zbar:$zbarVersion"
     //录音时的动画
    // implementation 'com.carlos.voiceline:mylibrary:1.0.6' //https://github.com/ws123/VoiceLine
-
     //测试包
  //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
